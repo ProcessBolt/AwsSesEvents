@@ -111,7 +111,7 @@ namespace AwsSesEventTester
 # To Do
 There are tag fields in `AwsSesEventMail` and `AwsSesEventClick` that have not yet been implemented. The `linkTags` in the `click` object would probably be very useful.
 
-Test, test, test.
+The `complaint` and `rejected` objects have not been tested.
 
 # References
 The following references (including but not limited to) were used as documentation to create these object definitions:
