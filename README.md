@@ -1,16 +1,21 @@
 # AwsSesEvents
 Object definitions for AWS Simple Email Service events from an SQS queue.
-# Introduction
-If you use Amazon Simple Email Service (SES) to send emails with a configuration set that is set up to send send/delivered/bounced/etc. event notifications to Simple Queueing Service (SQS) queue with a C# application, these object definitions may be of some use.
 
-For more information about using notifications for SES:
-https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-notifications.html
+# Introduction
+If you use Amazon Simple Email Service (SES) to send emails with a configuration set that is set up to send send/delivered/bounced/etc. event notifications to a Simple Queueing Service (SQS) queue with a C# application, these object definitions may be of some use.
 
 Amazon supplies these definitions for S3 within the AWSSDK, but not for SES. Furthermore, we could not find anything publicly available. So we decided it would be good to make our object definitions available.
 
 These object defintions were stitched together from varios sources (see references below).
 
 These objects have been designed to make it easy to deserialize the JSON into usable objects using Newtonsoft's ubiquitous Json.NET or similar.
+
+We claim no ownership of the object definitions or any intellectual property. This code is provided only to be helpful to anyone that may need it. Please contribute if you can.
+
+# To Do
+There are tag fields in `AwsSesEventMail` and `AwsSesEventClick` that have not yet been implemented. The `linkTags` in the `click` object would probably be very useful.
+
+The `complaint` and `rejected` objects have not been tested.
 
 # The SQS Message Format
 A notifcation fetched from SQS will be in the format represented by `AwsSqsMessage`.  That contains a field called `Message` that contains another JSON object.
@@ -26,11 +31,6 @@ Currently, the following event types are implemented:
 6. Complaint (`AwsSesEventComplaint`)
 7. Rejected (`AwsSesEventRejected`)
 8. Rendering Failure (`AwsSesEventFailure`)
-
-# To Do
-There are tag fields in `AwsSesEventMail` and `AwsSesEventClick` that have not yet been implemented. The `linkTags` in the `click` object would probably be very useful.
-
-The `complaint` and `rejected` objects have not been tested.
 
 # Example
 ```
