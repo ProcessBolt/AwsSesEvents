@@ -27,6 +27,11 @@ Currently, the following event types are implemented:
 7. Rejected (`AwsSesEventRejected`)
 8. Rendering Failure (`AwsSesEventFailure`)
 
+# To Do
+There are tag fields in `AwsSesEventMail` and `AwsSesEventClick` that have not yet been implemented. The `linkTags` in the `click` object would probably be very useful.
+
+The `complaint` and `rejected` objects have not been tested.
+
 # Example
 ```
 using System;
@@ -108,11 +113,6 @@ namespace AwsSesEventTester
     }
 }
 ```
-# To Do
-There are tag fields in `AwsSesEventMail` and `AwsSesEventClick` that have not yet been implemented. The `linkTags` in the `click` object would probably be very useful.
-
-The `complaint` and `rejected` objects have not been tested.
-
 # References
 The following references (including but not limited to) were used as documentation to create these object definitions:
 https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-notifications.html
