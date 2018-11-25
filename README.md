@@ -13,9 +13,7 @@ These objects have been designed to make it easy to deserialize the JSON into us
 We claim no ownership of the object definitions or any intellectual property. This code is provided only to be helpful to anyone that may need it. Please contribute if you can.
 
 # To Do
-There are tag fields in `AwsSesEventMail` and `AwsSesEventClick` that have not yet been implemented. The `linkTags` in the `click` object would probably be very useful.
-
-The `complaint` and `rejected` objects have not been tested.
+The `complaint` objects have not been tested.
 
 # The SQS Message Format
 A notifcation fetched from SQS will be in the format represented by `AwsSqsMessage`.  That contains a field called `Message` that contains another JSON object.
