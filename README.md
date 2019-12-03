@@ -117,4 +117,4 @@ https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-notificati
 https://docs.aws.amazon.com/ses/latest/DeveloperGuide/event-publishing-retrieving-firehose-contents.html
 https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-notifications-contents.html
 https://aws.amazon.com/blogs/messaging-and-targeting/introducing-sending-metrics/
-
+https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html
