@@ -29,7 +29,7 @@
 //
 //  HISTORY:
 //      2018-11-24 Original (Dan Gardner, ProcessBolt)
-//
+//      2019-11-12 Added structures for reply notifications (Dan Gardner, ProcessBolt)
 //
 
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace AwsSesEventObjects
         /// <summary>Unique identifier for this messsage.</summary>
         public string MessageId { get; set; }
 
-        /// <summary>Subject is always(?) "Amazon SES Email Event Notification"</summary>
+        /// <summary>Subject is always(?) "Amazon SES Email Event Notification" or "Amazon SES Email Receipt Notification"</summary>
         public string Subject { get; set; }
 
         /// <summary>Message contains the JSON object represeted by AwsSesEvent</summary>
@@ -375,6 +375,282 @@ namespace AwsSesEventObjects
         public string templateName;
     }
 
+    /// <summary>
+    /// The top level object for SES receipt notifications
+    /// </summary>
+    public class AwsSesReceiptNotification
+    {
+        /// <summary>
+        /// The notification type. For this type of notification, the value is always Received.
+        /// </summary>
+        public string NotificationType { get; set; }
+
+        /// <summary>
+        /// Object that contains information about the email delivery.
+        /// </summary>
+        public AwsSesReceiptNotificationReceipt Receipt { get; set; }
+
+        /// <summary>
+        /// Object that contains information about the email associated with the notification.
+        /// </summary>
+        public AwsSesReceiptNotificationMail Mail { get; set; }
+
+        /// <summary>
+        /// String that contains the raw, unmodified email, which is typically in Multipurpose Internet Mail Extensions (MIME) format. For more information about MIME format, see RFC 2045.
+        /// </summary>
+        public string Content { get; set; }
+    }
+
+    /// <summary>
+    /// Object that contains information about the email delivery.
+    /// </summary>
+    public class AwsSesReceiptNotificationReceipt
+    {
+        /// <summary>
+        /// action - Object that encapsulates information about the action that was executed.For a list of possible values, see action Object.
+        /// </summary>
+        public AwsSesReceiptNotificationReceiptAction Action { get; set; }
+
+        /// <summary>
+        /// dkimVerdict - Object that indicates whether the DomainKeys Identified Mail(DKIM) check passed.For a list of possible values, see dkimVerdict Object.
+        /// </summary>
+        public AwsSesReceiptNotificationReceiptDkimVerdict DkimVerdict { get; set; }
+
+        /// <summary>
+        /// dmarcPolicy - Indicates the Domain-based Message Authentication, Reporting & Conformance (DMARC) settings for the sending domain.This field only appears if the message fails DMARC authentication.
+        /// </summary>
+        public string DmarcPolicy { get; set; }
+
+        /// <summary>
+        /// dmarcVerdict - Object that indicates whether the Domain-based Message Authentication, Reporting & Conformance (DMARC) check passed.For a list of possible values, see dmarcVerdict Object.
+        /// </summary>
+        public AwsSesReceiptNotificationReceiptDmarcVerdict DmarcVerdict { get; set; }
+
+        /// <summary>
+        /// processingTimeMillis - String that specifies the period, in milliseconds, from the time Amazon SES received the message to the time it triggered the action.
+        /// </summary>
+        public string ProcessingTimeMillis { get; set; }
+
+        /// <summary>
+        /// recipients - A list of recipients (specifically, the envelope RCPT TO addresses) that were matched by the active receipt rule.The addresses listed here may differ from those listed by the destination field in the mail Object.
+        /// </summary>
+        public List<string> Recipients { get; set; }
+
+        /// <summary>
+        /// spamVerdict - Object that indicates whether the message is spam.For a list of possible values, see spamVerdict Object.
+        /// </summary>
+        public AwsSesReceiptNotificationReceiptSpamVerdict SpamVerdict { get; set; }
+
+        /// <summary>
+        /// spfVerdict - Object that indicates whether the Sender Policy Framework (SPF) check passed.For a list of possible values, see spfVerdict Object.
+        /// </summary>
+        public AwsSesReceiptNotificationReceiptSpfVerdict SpfVerdict { get; set; }
+
+        /// <summary>
+        /// timestamp - String that specifies the date and time at which the action was triggered, in ISO 8601 format.
+        /// </summary>
+        public string Timestamp { get; set; }
+
+        /// <summary>
+        /// virusVerdict - Object that indicates whether the message contains a virus. For a list of possible values, see virusVerdict Object.
+        /// </summary>
+        public AwsSesReceiptNotificationReceiptVirusVerdict VirusVerdict { get; set; }
+    }
+
+    /// <summary>
+    /// Object that encapsulates information about the action that was executed.
+    /// </summary>
+    public class AwsSesReceiptNotificationReceiptAction
+    {
+        /// <summary>type - String that indicates the type of action that was executed.Possible values are S3, SNS, Bounce, Lambda, Stop, and WorkMail.</summary>
+        public string Type { get; set; }
+
+        /// <summary>topicArn - String that contains the Amazon Resource Name(ARN) of the Amazon SNS topic to which the notification was published.</summary>
+        public string TopicArn { get; set; }
+
+        /// <summary>bucketName - String that contains the name of the Amazon S3 bucket to which the message was published.Present only for the S3 action type.</summary>
+        public string BucketName { get; set; }
+
+        /// <summary>objectKey - String that contains a name that uniquely identifies the email in the Amazon S3 bucket. This is the same as the messageId in the mail Object.Present only for the S3 action type.</summary>
+        public string ObjectKey { get; set; }
+
+        /// <summary>smtpReplyCode - String that contains the SMTP reply code, as defined by RFC 5321. Present only for the bounce action type.</summary>
+        public string SmtpReplyCode { get; set; }
+
+        /// <summary>statusCode - String that contains the SMTP enhanced status code, as defined by RFC 3463. Present only for the bounce action type.</summary>
+        public string StatusCode { get; set; }
+
+        /// <summary>message - String that contains the human-readable text to include in the bounce message.Present only for the bounce action type.</summary>
+        public string Message { get; set; }
+
+        /// <summary>sender - String that contains the email address of the sender of the email that bounced.This is the address from which the bounce message was sent.Present only for the bounce action type.</summary>
+        public string Sender { get; set; }
+
+        /// <summary>functionArn - String that contains the ARN of the Lambda function that was triggered.Present only for the Lambda action type.</summary>
+        public string FunctionArn { get; set; }
+
+        /// <summary>invocationType - String that contains the invocation type of the Lambda function.Possible values are RequestResponse and Event. Present only for the Lambda action type.</summary>
+        public string InvocationType { get; set; }
+
+        /// <summary>organizationArn - String that contains the ARN of the Amazon WorkMail organization.Present only for the WorkMail action type.</summary>
+        public string OrganizationArn { get; set; }
+    }
+
+    /// <summary>
+    /// Results of DKIM
+    /// </summary>
+    public class AwsSesReceiptNotificationReceiptDkimVerdict
+    {
+        /// <summary>
+        /// String that contains the DKIM verdict. Possible values are:
+        /// PASS: The message passed DKIM authentication. 
+        /// FAIL: The message failed DKIM authentication.
+        /// GRAY: The message is not DKIM-signed.
+        /// PROCESSING_FAILED: There is an issue that prevents Amazon SES from checking the DKIM signature.For example, DNS queries are failing or the DKIM signature header is not formatted properly.
+        /// </summary>
+        public string Status { get; set; }
+    }
+
+    /// <summary>
+    /// Results of DMARC
+    /// </summary>
+    public class AwsSesReceiptNotificationReceiptDmarcVerdict
+    {
+        /// <summary>
+        /// String that contains the DMARC verdict.Possible values are:
+        /// PASS: The message passed DMARC authentication.
+        /// FAIL: The message failed DMARC authentication. 
+        /// GRAY: The message failed DMARC authentication, and the sending domain does not have a DMARC policy, or uses the p = none policy.
+        /// PROCESSING_FAILED: There is an issue that prevents Amazon SES from providing a DMARC verdict.
+        /// </summary>
+        public string Status { get; set; }
+    }
+
+    /// <summary>
+    /// Results of virus scan
+    /// </summary>
+    public class AwsSesReceiptNotificationReceiptSpamVerdict
+    {
+        /// <summary>
+        /// String that contains the result of spam scanning. Possible values are:
+        /// PASS: The spam scan determined that the message is unlikely to contain spam.
+        /// FAIL: The spam scan determined that the message is likely to contain spam.
+        /// GRAY: Amazon SES scanned the email but could not determine with confidence whether it is spam.
+        /// PROCESSING_FAILED: Amazon SES was unable to scan the email. For example, the email is not a valid MIME message.
+        /// </summary>
+        public string Status { get; set; }
+    }
+
+    /// <summary>
+    /// Results of SPF
+    /// </summary>
+    public class AwsSesReceiptNotificationReceiptSpfVerdict
+    {
+        /// <summary>
+        /// String that contains the SPF verdict. Possible values are:
+        /// PASS: The message passed SPF authentication.
+        /// FAIL: The message failed SPF authentication.
+        /// GRAY: There is no SPF policy under the domain used in the MAIL FROM command.
+        /// PROCESSING_FAILED: There is an issue that prevents Amazon SES from checking the SPF record.For example, DNS queries are failing.
+        /// </summary>
+        public string Status { get; set; }
+    }
+
+    /// <summary>
+    /// Result of virus scan
+    /// </summary>
+    public class AwsSesReceiptNotificationReceiptVirusVerdict
+    {
+        /// <summary>
+        /// String that contains the result of virus scanning. Possible values are:
+        /// PASS: The message does not contain a virus.
+        /// FAIL: The message contains a virus.
+        /// GRAY: Amazon SES scanned the email but could not determine with confidence whether it contains a virus.
+        /// PROCESSING_FAILED: Amazon SES is unable to scan the content of the email. For example, the email is not a valid MIME message.
+        /// </summary>
+        public string Status { get; set; }
+    }
+
+    /// <summary>
+    /// Object that contains information about the email associated with the notification.
+    /// </summary>
+    public class AwsSesReceiptNotificationMail
+    {
+        /// <summary>
+        /// destination - A complete list of all recipient addresses(including To: and CC: recipients) from the MIME headers of the incoming email.
+        /// </summary>
+        public List<string> Destination { get; set; }
+
+        /// <summary>
+        /// messageId - String that contains the unique ID assigned to the email by Amazon SES.If the email was delivered to Amazon S3, the message ID is also the Amazon S3 object key that was used to write the message to your Amazon S3 bucket.
+        /// </summary>
+        public string MessageId { get; set; }
+
+        /// <summary>
+        /// source - String that contains the email address (specifically, the envelope MAIL FROM address) that the email was sent from. 
+        /// </summary>
+        public string Source { get; set; }
+
+        /// <summary>
+        /// timestamp - String that contains the time at which the email was received, in ISO8601 format.
+        /// </summary>
+        public string Timestamp { get; set; }
+
+        /// <summary>
+        /// headers - A list of Amazon SES headers and your custom headers.Each header in the list has a name field and a value field.
+        /// </summary>
+        public List<AwsSesEventHeaderItem> Headers { get; set; }
+
+        /// <summary>
+        /// commonHeaders - A list of headers common to all emails.Each header in the list is composed of a name and a value. 
+        /// </summary>
+        public AwsSesReceiptNotificationCommonHeaders CommonHeaders { get; set; }
+
+        /// <summary>
+        /// headersTruncated - String that specifies whether the headers were truncated in the notification, which will happen if the headers are larger than 10 KB.Possible values are true and false.
+        /// </summary>
+        public bool HeadersTruncated { get; set; }
+    }
+
+
+
+    /// <summary>
+    /// AwsSesReceiptNotificationCommonHeaders
+    /// </summary>
+    public class AwsSesReceiptNotificationCommonHeaders
+    {
+        /// <summary>messageId - The ID of the original message.</summary>
+        public string MessageId { get; set; }
+
+        /// <summary>date - The date and time when Amazon SES received the message.</summary>
+        public string Date { get; set; }
+
+        /// <summary>to - The values in the To header of the email.</summary>
+        public List<string> To { get; set; }
+
+        /// <summary>cc - The values in the CC header of the email.</summary>
+        public List<string> Cc { get; set; }
+
+        /// <summary>bcc - The values in the BCC header of the email.</summary>
+        public List<string> Bcc { get; set; }
+
+        /// <summary>from - The values in the From header of the email.</summary>
+        public List<string> From { get; set; }
+
+        /// <summary>sender - The values in the Sender header of the email.</summary>
+        public List<string> Sender { get; set; }
+
+        /// <summary>returnPath - The values in the Return-Path header of the email.
+        /// This is list in events common headers, but being seen as single value here. (????)
+        /// </summary>
+        public string ReturnPath { get; set; }
+
+        /// <summary>reply-to - The values in the Reply-To header of the email.</summary>
+        public List<string> ReplyTo { get; set; }
+
+        /// <summary>subject - The value of the Subject header for the email.</summary>
+        public string Subject { get; set; }
+    }
 }
 
 //-------------------------------------------------------------------------------------------------------------------//
