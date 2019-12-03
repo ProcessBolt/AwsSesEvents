@@ -2,7 +2,7 @@
 Object definitions for AWS Simple Email Service events from an SQS queue.
 
 # Introduction
-If you use Amazon Simple Email Service (SES) to send emails with a configuration set that is set up to send send/delivered/bounced/etc. event notifications to a Simple Queueing Service (SQS) queue with a C# application, these object definitions may be of some use.
+If you use Amazon Simple Email Service (SES) to send and/or receive emails with a configuration set that is set up to send send/delivered/bounced/etc. event notifications to a Simple Queueing Service (SQS) queue with a C# application, these object definitions may be of some use.
 
 Amazon supplies these definitions for S3 within the AWSSDK, but not for SES. Furthermore, we could not find anything publicly available. So we decided it would be good to make our object definitions available.
 
